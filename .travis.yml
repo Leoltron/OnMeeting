@@ -6,8 +6,12 @@ jobs:
       node_js: 9
       install:
         - cd src/main/front
-        - npm ci --production
+        - npm install --production
+      before_script:
+        - npm run test
       script:
-        - npm run build
+        - npm run build:react
     - language: java
       jdk: openjdk8
+      before_install:
+        - chmod +x mvnw
