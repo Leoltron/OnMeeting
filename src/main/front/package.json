@@ -14,12 +14,8 @@
     "typescript": "3.6.4"
   },
   "scripts": {
-    "ci": "npm-run-all ci:*",
-    "ci:install": "npm ci --production",
-    "ci:build": "npm-run-all build",
-    "build": "npm-run-all build:*",
-    "build:react": "react-scripts build",
-    "build:copy-output": "copyfiles --up 1 \"./build/**/*\" \"../resources/public\"",
+    "build": "react-scripts build",
+    "copy-output": "copyfiles --up 1 \"./build/**/*\" \"../resources/public\"",
     "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

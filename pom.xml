@@ -69,10 +69,7 @@
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <resources>
             <resource>
-                <directory>${basedir}/src/main/resources/bitcoin-ethereum</directory>
-                <includes>
-                    <include>*xml</include>
-                </includes>
+                <directory>${basedir}/src/main/resources</directory>
             </resource>
         </resources>
         <plugins>
@@ -90,12 +87,14 @@
                         <goals>
                             <goal>install-node-and-npm</goal>
                         </goals>
+                        <phase>validate</phase>
                     </execution>
                     <execution>
                         <id>npm install</id>
                         <goals>
                             <goal>npm</goal>
                         </goals>
+                        <phase>validate</phase>
                         <configuration>
                             <arguments>install</arguments>
                         </configuration>
@@ -105,9 +104,19 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
+                        <phase>validate</phase>
                         <configuration>
-                            <arguments>run</arguments>
-                            <arguments>build</arguments>
+                            <arguments>run build</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm run copy-output</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <arguments>run copy-output</arguments>
                         </configuration>
                     </execution>
                 </executions>
