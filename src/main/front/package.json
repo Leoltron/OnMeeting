@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "copyfiles": "^2.1.1",
     "@types/jest": "24.0.19",
     "@types/node": "12.11.1",
     "@types/react": "16.9.9",
@@ -13,6 +14,9 @@
     "typescript": "3.6.4"
   },
   "scripts": {
+    "ci": "npm-run-all ci:*",
+    "ci:install": "npm ci --production",
+    "ci:build": "npm-run-all build",
     "build": "npm-run-all build:*",
     "build:react": "react-scripts build",
     "build:copy-output": "copyfiles --up 1 \"./build/**/*\" \"../resources/public\"",
@@ -34,8 +38,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "copyfiles": "^2.1.1"
   }
 }
