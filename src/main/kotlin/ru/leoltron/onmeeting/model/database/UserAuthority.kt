@@ -1,4 +1,4 @@
-package ru.leoltron.onmeeting.model
+package ru.leoltron.onmeeting.model.database
 
 import ru.leoltron.onmeeting.validation.StringLength
 import javax.persistence.*
@@ -14,13 +14,8 @@ class UserAuthority(
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, updatable = false, insertable = false)
-    private val user: User? = null
+    var user: User? = null
 
-    /*
-    @ManyToMany(cascade = [CascadeType.ALL])
-    @JoinTable(name = "Employee_Project", joinColumns = [JoinColumn(name = "employee_id")], inverseJoinColumns = [JoinColumn(name = "project_id")])
-    var projects: Set<Project> = HashSet<Project>()*/
-
-
+    @Suppress("unused")
     private constructor() : this("", 0)
 }

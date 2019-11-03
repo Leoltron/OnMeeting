@@ -1,4 +1,4 @@
-package ru.leoltron.onmeeting.model
+package ru.leoltron.onmeeting.model.database
 
 import ru.leoltron.onmeeting.validation.StringLength
 import javax.persistence.*
@@ -11,14 +11,15 @@ class User(
         @Column(name = "user_id") @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val userId: Int = -1) {
 
-    @OneToMany(mappedBy = "user", fetch=FetchType.EAGER)
-    val authorities: Set<UserAuthority>? = null
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    var authorities: Set<UserAuthority> = HashSet()
 
-    /*
-    @ManyToMany(cascade = [CascadeType.ALL])
-    @JoinTable(name = "Employee_Project", joinColumns = [JoinColumn(name = "employee_id")], inverseJoinColumns = [JoinColumn(name = "project_id")])
-    var projects: Set<Project> = HashSet<Project>()*/
+    @OneToMany(mappedBy = "user")
+    var cards: Set<Card> = HashSet()
 
+    @ManyToMany(mappedBy = "participants")
+    var participatingCards: Set<Card> = HashSet()
 
+    @Suppress("unused")
     private constructor() : this("", "")
 }

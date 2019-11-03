@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
-import ru.leoltron.onmeeting.model.User
+import ru.leoltron.onmeeting.model.database.User
 import ru.leoltron.onmeeting.repo.UserRepository
 
 @RestController

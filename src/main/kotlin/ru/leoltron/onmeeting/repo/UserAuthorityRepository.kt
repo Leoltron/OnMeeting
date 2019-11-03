@@ -2,7 +2,7 @@ package ru.leoltron.onmeeting.repo
 
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
-import ru.leoltron.onmeeting.model.UserAuthority
+import ru.leoltron.onmeeting.model.database.UserAuthority
 
 @Repository
 interface UserAuthorityRepository : CrudRepository<UserAuthority, Int> {
