@@ -25,14 +25,14 @@ class TagController : BaseController() {
     @ResponseBody
     @GetMapping("/get")
     fun get(@RequestParam(name = "id", required = true) id: Int): ResponseEntity<TagModel> {
-        val tag = repository.findByIdOrNull(id) ?: return notFound()
+        val tag = repository.findByIdOrNull(id) ?: return notFound("no tag with id $id found")
         return ok(tag.toModel())
     }
 
     @PostMapping("/add")
     fun add(@Valid @RequestBody tagModel: TagModel): ResponseEntity<Any> {
         if (repository.findByName(tagModel.name).any()) {
-            return badRequest()
+            return badRequest("tag with ${tagModel.name} already exists")
         }
 
         repository.save(Tag(tagModel.name, tagModel.description, tagModel.color))
@@ -41,7 +41,7 @@ class TagController : BaseController() {
 
     @PatchMapping("/update")
     fun update(@RequestParam(name = "id", required = true) id: Int, @Validated @RequestBody tagModel: TagModel): ResponseEntity<Any> {
-        val updatingTag = repository.findByIdOrNull(id) ?: return notFound()
+        val updatingTag = repository.findByIdOrNull(id) ?: return notFound("no tag with id $id found")
 
         updatingTag.updateFrom(tagModel)
         repository.save(updatingTag)
@@ -51,7 +51,7 @@ class TagController : BaseController() {
 
     @DeleteMapping("/delete")
     fun delete(@RequestParam(name = "id", required = true) id: Int): ResponseEntity<Any> {
-        val deletingTag = repository.findByIdOrNull(id) ?: return notFound()
+        val deletingTag = repository.findByIdOrNull(id) ?: return notFound("no tag with id $id found")
         repository.delete(deletingTag)
         return ok()
     }
