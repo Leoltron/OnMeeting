@@ -25,7 +25,7 @@ class TagController : BaseController() {
     @ResponseBody
     @GetMapping("/get")
     fun get(@RequestParam(name = "id", required = true) id: Int): ResponseEntity<TagModel> {
-        val tag = repository.findByIdOrNull(id) ?: return notFound("no tag with id $id found")
+        val tag = repository.findByIdOrNull(id) ?: return notFound()
         return ok(tag.toModel())
     }
 
