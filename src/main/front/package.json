@@ -46,7 +46,6 @@
     "build": "node scripts/build.js",
     "gen-idea-libs": "node scripts/gen-idea-libs.js",
     "get-types": "node scripts/get-types.js --dest=src/types",
-    "postinstall": "npm run gen-idea-libs",
     "copy-output": "copyfiles --up 1 \"./build/**/*\" \"../resources/public\""
   },
   "babel": {
