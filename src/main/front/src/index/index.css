@@ -1,7 +1,25 @@
-body {
+@import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans&display=swap&subset=cyrillic');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap');
+
+html, body, #root {
+  height: 100vh;
+  /*font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;*/
+  font-family: 'Lato', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  background:  #bbdefb;
+  /*background: #DAF7A6;*/
+  color: rgba(0, 0, 0, 0.7);
+}
+
+* {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
 }
 
 *, :after, :before {

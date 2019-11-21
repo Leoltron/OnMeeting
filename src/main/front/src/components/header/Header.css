@@ -1,0 +1,11 @@
+.Header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 auto;
+    padding: 24px 28px 28px;
+}
+
+.Header h1 {
+    font-family: 'Montserrat', sans-serif;
+}
