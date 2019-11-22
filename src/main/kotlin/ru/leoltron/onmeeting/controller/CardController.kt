@@ -56,7 +56,7 @@ class CardController(
                  @PathVariable cardId: Int): ResponseEntity<Any> {
         val userId = userRepository.findByUsername(principal.name).firstOrNull()?.userId ?: return unauthorized()
         val card = cardRepository.findByIdOrNull(cardId) ?: return badRequest("card not found")
-        if (card.userId != userId) return badRequest("you don't have an access to edit card with id $cardId")
+        if (card.userId != userId) return forbidden("you don't have an access to edit card with id $cardId")
         val participants = userRepository.findAllById(cardAddOrEditModel.participantsIds)
         val tags = tagRepository.findAllById(cardAddOrEditModel.tagIds)
         card.updateFromModel(cardAddOrEditModel, participants, tags)
@@ -69,7 +69,7 @@ class CardController(
                @PathVariable cardId: Int): ResponseEntity<Any> {
         val userId = userRepository.findByUsername(principal.name).firstOrNull()?.userId ?: return unauthorized()
         val card = cardRepository.findByIdOrNull(cardId) ?: return badRequest("card with id $cardId not found")
-        if (card.userId != userId) return badRequest("you don't have an access to delete card with id $cardId")
+        if (card.userId != userId) return forbidden("you don't have an access to delete card with id $cardId")
         cardRepository.deleteById(cardId)
         return ok()
     }

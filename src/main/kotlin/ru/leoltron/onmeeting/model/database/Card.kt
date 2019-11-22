@@ -15,14 +15,14 @@ class Card(
         @Column(name = "card_id") @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val cardId: Int = -1) {
 
-    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @ManyToMany(cascade = [CascadeType.MERGE, CascadeType.PERSIST], fetch = FetchType.EAGER)
     @JoinTable(
             name = "card_tag",
             joinColumns = [JoinColumn(name = "card_id")],
             inverseJoinColumns = [JoinColumn(name = "tag_id")])
     var tags: MutableSet<Tag> = HashSet()
 
-    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @ManyToMany(cascade = [CascadeType.MERGE, CascadeType.PERSIST], fetch = FetchType.EAGER)
     @JoinTable(
             name = "card_participant",
             joinColumns = [JoinColumn(name = "card_id")],

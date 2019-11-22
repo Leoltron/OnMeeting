@@ -8,4 +8,6 @@ abstract class BaseController {
     protected fun <T> badRequest(body: T? = null) = ResponseEntity(body, HttpStatus.BAD_REQUEST)
     protected fun <T> unauthorized(body: T? = null) = ResponseEntity(body, HttpStatus.UNAUTHORIZED)
     protected fun <T> ok(body: T? = null) = ResponseEntity(body, HttpStatus.OK)
+    protected fun <T> forbidden(body: T? = null) = ResponseEntity(body, HttpStatus.FORBIDDEN)
+
 }
