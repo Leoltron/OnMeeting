@@ -15,6 +15,7 @@ import ru.leoltron.onmeeting.util.updateFromModel
 import java.security.Principal
 
 @RestController
+@CrossOrigin(origins = ["*"], allowedHeaders = ["*"])
 @RequestMapping("/api/card")
 class CardController(
         private val cardProvider: ICardProvider,

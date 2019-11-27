@@ -1,10 +1,7 @@
 package ru.leoltron.onmeeting.controller
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import ru.leoltron.onmeeting.model.TagModel
 import ru.leoltron.onmeeting.model.UserModel
 import ru.leoltron.onmeeting.model.database.Tag
@@ -14,6 +11,7 @@ import ru.leoltron.onmeeting.repo.UserRepository
 import ru.leoltron.onmeeting.util.toModel
 
 @RestController
+@CrossOrigin(origins = ["*"], allowedHeaders = ["*"])
 @RequestMapping("api/user")
 internal class UserController : BaseController() {
     @Autowired

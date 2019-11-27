@@ -13,6 +13,7 @@ import ru.leoltron.onmeeting.util.updateFrom
 import javax.validation.Valid
 
 @RestController
+@CrossOrigin(origins = ["*"], allowedHeaders = ["*"])
 @RequestMapping("/api/tag")
 class TagController : BaseController() {
     @Autowired

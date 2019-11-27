@@ -2,12 +2,14 @@ package ru.leoltron.onmeeting.controller
 
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.leoltron.onmeeting.model.database.User
 import ru.leoltron.onmeeting.repo.UserRepository
 
 @RestController
+@CrossOrigin(origins = ["*"], allowedHeaders = ["*"])
 class RegistrationController(private val userRepository: UserRepository, private val passwordEncoder: PasswordEncoder) : BaseController() {
     @PostMapping("/register")
     fun register(username: String, password: String): ResponseEntity<Any> = when {
@@ -17,7 +19,7 @@ class RegistrationController(private val userRepository: UserRepository, private
         userRepository.findByUsername(username).any() -> badRequest("Username is already taken")
         else -> {
             userRepository.save(User(username, passwordEncoder.encode(password)))
-            ok()
+             ok()
         }
     }
 }
