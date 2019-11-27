@@ -12,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import ru.leoltron.onmeeting.auth.OnMeetingUserDetailsService
 
 @Configuration
@@ -38,6 +41,15 @@ class SecurityConfig(
 
     @Bean
     fun encoder(): PasswordEncoder = BCryptPasswordEncoder()
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource? {
+        val configuration = CorsConfiguration()
+        configuration.allowedOrigins = listOf("*")
+        configuration.allowedMethods = listOf("GET", "POST", "PATCH", "DELETE", "PUT")
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
+    }
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
