@@ -1,4 +1,4 @@
-package app
+package features.app
 
 import react.*
 import react.dom.*
