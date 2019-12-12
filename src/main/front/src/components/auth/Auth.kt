@@ -9,7 +9,6 @@ import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.events.Event
 import org.w3c.dom.url.*
 import org.w3c.fetch.*
-//import kotlin.browser.*
 
 import features.http.client.*
 
@@ -43,13 +42,13 @@ class Auth : RComponent<RProps, AuthState>() {
             div("Auth-controls") {
                 button {
                     attrs {
-                        onClickFunction = ::signUpp
+                        onClickFunction = ::signUpFunc
                     }
                     +"Sign Up"
                 }
                 button {
                     attrs {
-                        onClickFunction = ::signIn
+                        onClickFunction = ::signInFunc
                     }
                     +"Sign In"
                 }
@@ -57,11 +56,11 @@ class Auth : RComponent<RProps, AuthState>() {
         }
     }
 
-    fun signIn(event: Event) {
-        println(state.login + state.password)
+    fun signInFunc(event: Event) {
+        signIn(state.login, state.password)
     }
 
-    fun signUpp(event: Event) {
+    fun signUpFunc(event: Event) {
         signUp(state.login, state.password)
     }
 

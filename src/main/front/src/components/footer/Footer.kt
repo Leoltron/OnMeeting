@@ -7,7 +7,7 @@ class Footer : RComponent<RProps, RState>() {
     override fun RBuilder.render() {
         div("Footer") {
             p {
-                +"designed with <3"
+                +"designed with fun"
             }
         }
     }
