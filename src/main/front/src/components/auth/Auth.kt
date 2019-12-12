@@ -9,7 +9,9 @@ import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.events.Event
 import org.w3c.dom.url.*
 import org.w3c.fetch.*
-import kotlin.browser.*
+//import kotlin.browser.*
+
+import features.http.client.*
 
 interface AuthState : RState {
     var login: String
@@ -24,41 +26,33 @@ class Auth : RComponent<RProps, AuthState>() {
 
     override fun RBuilder.render() {
         div("App-auth") {
-            label {
-                attrs["htmlFor"] = "a"
-                +"Логин"
-            }
             input(type = InputType.text, name = "login") {
                 attrs {
-                    placeholder = "Введите логин"
+                    placeholder = "Username"
                     value = state.login
                     onChangeFunction = ::onLoginChange
                 }
-                attrs["id"] = "login"
-            }
-            label {
-                attrs["htmlFor"] = "password"
-                +"Пароль"
             }
             input(type = InputType.password, name = "password") {
                 attrs {
-                    placeholder = "Введите пароль"
+                    placeholder = "Password"
                     value = state.password
                     onChangeFunction = ::onPasswordChange
                 }
-                attrs["id"] = "password"
             }
-            button {
-                attrs {
-                    onClickFunction = ::signUp
+            div("Auth-controls") {
+                button {
+                    attrs {
+                        onClickFunction = ::signUpp
+                    }
+                    +"Sign Up"
                 }
-                +"Зарегестрироваться"
-            }
-            button {
-                attrs {
-                    onClickFunction = ::signIn
+                button {
+                    attrs {
+                        onClickFunction = ::signIn
+                    }
+                    +"Sign In"
                 }
-                +"Войти"
             }
         }
     }
@@ -67,11 +61,8 @@ class Auth : RComponent<RProps, AuthState>() {
         println(state.login + state.password)
     }
 
-    fun signUp(event: Event) {
-        println(state.login + state.password)
-        val BASE_URL: String = "http://localhost:8080"
-        window.fetch("${BASE_URL}/register?username=${state.login}&password=${state.password}",
-                RequestInit(method = "POST", credentials = "same-origin".asDynamic()))
+    fun signUpp(event: Event) {
+        signUp(state.login, state.password)
     }
 
     fun onLoginChange(event: Event) {

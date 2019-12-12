@@ -6,14 +6,20 @@
     width: 50vw;
 }
 
-.App-auth input + label {
-    margin-top: 16px;
-}
-
 .App-auth label + input {
     margin-top: 8px;
 }
 
 .App-auth input {
     height: 40px;
+}
+
+.Auth-controls {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.Auth-controls button {
+    padding: 12px;
 }
