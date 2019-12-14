@@ -19,33 +19,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Build with Maven
-        run: mvn clean install
+      - name: Build and deploy with Maven
+        run: mvn clean heroku:deploy
         env:
           SPRING_DATASOURCE_URL: ${{ secrets.DataSourceUrl }}
           SPRING_DATASOURCE_USERNAME: ${{ secrets.DataSourceUser }}
           SPRING_DATASOURCE_PASSWORD: ${{ secrets.DataSourcePass }}
-
-      - name: Login into Heroku
-        uses: actions/heroku@master
-        with:
-          args: container:login
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_APP: ${{ secrets.HEROKU_APP }}
-
-      - name: Push to Heroku
-        uses: actions/heroku@master
-        with:
-          args: container:push web
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_APP: "on-meeting"
-
-      - name: Trigger release in Heroku
-        uses: actions/heroku@master
-        with:
-          args: container:release web
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_APP: "on-meeting"
