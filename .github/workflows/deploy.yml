@@ -26,34 +26,29 @@ jobs:
           SPRING_DATASOURCE_USERNAME: ${{ secrets.DataSourceUser }}
           SPRING_DATASOURCE_PASSWORD: ${{ secrets.DataSourcePass }}
 
-  login:
+  deploy:
     runs-on: ubuntu-latest
-    name: Login into Heroku
-    uses: actions/heroku@master
-    with:
-      args: container:login
-    env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      HEROKU_APP: ${{ secrets.HEROKU_APP }}
+    needs: build
+    steps:
+      - uses: actions/checkout@v1
+      - name: Login into Heroku
+        with:
+          args: container:login
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP: ${{ secrets.HEROKU_APP }}
 
-  push:
-    runs-on: ubuntu-latest
-    name: Push to Heroku
-    needs: [build, login]
-    uses: actions/heroku@master
-    with:
-      args: container:push web
-    env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      HEROKU_APP: "on-meeting"
+      - name: Push to Heroku
+        with:
+          args: container:push web
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP: "on-meeting"
 
-  release:
-    runs-on: ubuntu-latest
-    name: Trigger release in Heroku
-    needs: push
-    uses: actions/heroku@master
-    with:
-      args: container:release web
-    env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      HEROKU_APP: "on-meeting"
+      - name: Trigger release in Heroku
+        uses: actions/heroku@master
+        with:
+          args: container:release web
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP: "on-meeting"
