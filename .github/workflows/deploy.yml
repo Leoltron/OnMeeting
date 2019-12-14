@@ -32,6 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Login into Heroku
+        uses: actions/heroku@master
         with:
           args: container:login
         env:
@@ -39,6 +40,7 @@ jobs:
           HEROKU_APP: ${{ secrets.HEROKU_APP }}
 
       - name: Push to Heroku
+        uses: actions/heroku@master
         with:
           args: container:push web
         env:
