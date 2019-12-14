@@ -25,3 +25,4 @@ jobs:
           SPRING_DATASOURCE_URL: ${{ secrets.DataSourceUrl }}
           SPRING_DATASOURCE_USERNAME: ${{ secrets.DataSourceUser }}
           SPRING_DATASOURCE_PASSWORD: ${{ secrets.DataSourcePass }}
+          HEROKU_API_KEY: ${{ secrets.HerokuApiKey }}
