@@ -28,9 +28,30 @@ jobs:
           SPRING_DATASOURCE_USERNAME: ${{ secrets.DataSourceUser }}
           SPRING_DATASOURCE_PASSWORD: ${{ secrets.DataSourcePass }}
 
-      - name: Deploy to Heroku
+      login:
+        name: Login into Heroku
+        uses: actions/heroku@master
+        with:
+          args: container:login
         env:
-          HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
-          HEROKU_APP_NAME: "on-meeting"
-        if: job.status == 'success'
-        run: git push https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git origin/master:master
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP: ${{ secrets.HEROKU_APP }}
+
+      push:
+        name: Push to Heroku
+        needs: login
+        uses: actions/heroku@master
+        with:
+          args: container:push web
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP: "on-meeting"
+
+        - name: Trigger release in Heroku
+          needs: push
+          uses: actions/heroku@master
+          with:
+            args: container:release web
+          env:
+            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+            HEROKU_APP: "on-meeting"
