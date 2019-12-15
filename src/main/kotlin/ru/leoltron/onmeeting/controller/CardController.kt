@@ -11,6 +11,7 @@ import ru.leoltron.onmeeting.repo.CardRepository
 import ru.leoltron.onmeeting.repo.TagRepository
 import ru.leoltron.onmeeting.repo.UserRepository
 import ru.leoltron.onmeeting.util.toCard
+import ru.leoltron.onmeeting.util.toModel
 import ru.leoltron.onmeeting.util.updateFromModel
 import java.security.Principal
 
@@ -46,9 +47,8 @@ class CardController(
         card.participants.add(user)
         card.participants.addAll(userRepository.findAllById(cardAddOrEditModel.participantsIds))
         card.tags.addAll(tagRepository.findAllById(cardAddOrEditModel.tagIds))
-        cardRepository.save(card)
-
-        return ok()
+        val saved = cardRepository.save(card)
+        return ok(saved.toModel())
     }
 
     @PatchMapping("/{cardId}/edit")
@@ -61,8 +61,8 @@ class CardController(
         val participants = userRepository.findAllById(cardAddOrEditModel.participantsIds)
         val tags = tagRepository.findAllById(cardAddOrEditModel.tagIds)
         card.updateFromModel(cardAddOrEditModel, participants, tags)
-        cardRepository.save(card)
-        return ok()
+        val saved = cardRepository.save(card)
+        return ok(saved.toModel())
     }
 
     @DeleteMapping("/{cardId}/delete")
