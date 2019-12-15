@@ -43,3 +43,5 @@ buildNumber.properties
 .flattened-pom.xml
 
 /src/main/resources/public/
+
+*.DS_Store
