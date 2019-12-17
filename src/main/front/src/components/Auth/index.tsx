@@ -1,8 +1,12 @@
 import React, {useState} from "react";
 import "./Auth.less"
-import { signUp, signIn } from "../../httpClient"
+import Button from '@material-ui/core/Button';
+import TextField from "@material-ui/core/TextField";
+import {signUp, signIn} from "../../httpClient"
+import { useHistory } from 'react-router-dom'
 
 const Auth: React.FC = () => {
+    const history = useHistory();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
@@ -30,12 +34,16 @@ const Auth: React.FC = () => {
     };
 
     return (
-        <div className={"App-auth"}>
-            <input className="Auth-input" type="text" name="username" placeholder="Username" value={username} onChange={onUsernameChange} />
-            <input className="Auth-input" type="password" name="password" placeholder="Password" value={password} onChange={onPasswordChange} />
-            <div className={"Auth-controls"}>
-                <button onClick={onSignUp}>Sign Up</button>
-                <button onClick={onSignIn}>Sign In</button>
+        <div className="App-auth">
+            <TextField id="standard-basic" label="Username" value={username} onChange={onUsernameChange} />
+            <TextField id="standard-basic" label="Password" value={password} onChange={onPasswordChange} type="password" />
+            <div className="Auth-controls">
+                <Button variant="outlined" color="primary" onClick={onSignUp} disabled={password.length === 0 || username.length === 0}>
+                    Sign Up
+                </Button>
+                <Button variant="contained" color="primary" onClick={onSignIn} disabled={password.length === 0 || username.length === 0}>
+                    Sign In
+                </Button>
             </div>
             {error ? <div className={"Error"}>{error}</div> : null}
         </div>
