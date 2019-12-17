@@ -1,0 +1,64 @@
+@import "./colorSchema.less";
+
+@font-face {
+  font-family: Montserrat;
+  src: url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+}
+@font-face {
+  font-family: Ubuntu;
+  src: url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap&subset=cyrillic,cyrillic-ext');
+}
+@font-face {
+  font-family: IBMPlex;
+  src: url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap&subset=cyrillic,cyrillic-ext');
+}
+
+html, body, #root {
+  height: 100vh;
+  font-family: IBMPlex, Ubuntu, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  background: @default-color;
+  color: @default-text-color;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*, :after, :before {
+  box-sizing: border-box;
+}
+
+input,
+label,
+select,
+button,
+textarea
+{
+  margin:0;
+  border:0;
+  padding:0;
+  display:inline-block;
+  vertical-align:middle;
+  white-space:normal;
+  background:none;
+  line-height:1;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input:focus
+{
+  outline:0;
+}
+
+.my-input {
+  border-radius: 10px;
+  border: none;
+  background: @card-background;
+  padding: @base-size;
+  margin: @base-size;
+  color: @text-color;
+}

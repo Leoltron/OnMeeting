@@ -42,10 +42,10 @@ class SecurityConfig(
     @Bean
     fun encoder(): PasswordEncoder = BCryptPasswordEncoder()
     @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource? {
+    fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
         configuration.allowedOrigins = listOf("*")
-        configuration.allowedMethods = listOf("GET", "POST", "PATCH", "DELETE", "PUT")
+        configuration.allowedMethods = listOf("GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS")
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
         return source
@@ -53,7 +53,8 @@ class SecurityConfig(
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
-        http.csrf().disable()
+        http.csrf().disable().
+                cors().configurationSource {CorsConfiguration().applyPermitDefaultValues()}.and()
                 .exceptionHandling()
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
@@ -66,5 +67,6 @@ class SecurityConfig(
                 .failureHandler(myFailureHandler)
                 .and()
                 .logout()
+
     }
 }

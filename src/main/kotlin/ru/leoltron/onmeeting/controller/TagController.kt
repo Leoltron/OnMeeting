@@ -9,6 +9,7 @@ import ru.leoltron.onmeeting.model.TagModel
 import ru.leoltron.onmeeting.model.database.Tag
 import ru.leoltron.onmeeting.repo.TagRepository
 import ru.leoltron.onmeeting.util.toModel
+import ru.leoltron.onmeeting.util.toViewModel
 import ru.leoltron.onmeeting.util.updateFrom
 import javax.validation.Valid
 
@@ -36,8 +37,8 @@ class TagController : BaseController() {
             return badRequest("tag with ${tagModel.name} already exists")
         }
 
-        repository.save(Tag(tagModel.name, tagModel.description, tagModel.color))
-        return ok()
+        val saved = repository.save(Tag(tagModel.name, tagModel.description, tagModel.color))
+        return ok(saved.toViewModel())
     }
 
     @PatchMapping("/update")
@@ -45,9 +46,9 @@ class TagController : BaseController() {
         val updatingTag = repository.findByIdOrNull(id) ?: return notFound("no tag with id $id found")
 
         updatingTag.updateFrom(tagModel)
-        repository.save(updatingTag)
+        val saved = repository.save(updatingTag)
 
-        return ok()
+        return ok(saved.toViewModel())
     }
 
     @DeleteMapping("/delete")

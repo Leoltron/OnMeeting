@@ -9,7 +9,6 @@ import ru.leoltron.onmeeting.model.database.User
 import ru.leoltron.onmeeting.repo.UserRepository
 
 @RestController
-@CrossOrigin(origins = ["*"], allowedHeaders = ["*"])
 class RegistrationController(private val userRepository: UserRepository, private val passwordEncoder: PasswordEncoder) : BaseController() {
     @PostMapping("/register")
     fun register(username: String, password: String): ResponseEntity<Any> = when {

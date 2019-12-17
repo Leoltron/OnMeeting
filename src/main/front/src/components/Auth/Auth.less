@@ -1,0 +1,33 @@
+@import "../../index.less";
+
+.App-auth {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  max-width: 400px;
+  width: 50vw;
+}
+
+.App-auth * + * {
+  margin-top: 20px;
+}
+
+.Auth-controls {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.Auth-controls button + button {
+  margin-left: 24px;
+}
+
+.Error {
+  margin-top: 24px;
+  border-radius: 20px;
+  text-align: center;
+  background: rgba(176, 0, 32, 0.42);
+  color: white;
+  padding: 12px;
+}
