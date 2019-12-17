@@ -1,5 +1,5 @@
 const report = (error: Error) => {
-    console.exception(error.message)
+    console.error(error.message)
 };
 
 export default report;
