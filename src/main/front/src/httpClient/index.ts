@@ -4,7 +4,8 @@ import {CardAddOrEditModel} from "../models/CardAddOrEditModel";
 import {TagViewModel} from "../models/tagViewModel";
 import {UserModel} from "../models/userModel";
 
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = '';
+//const BASE_URL = 'https://on-meeting.herokuapp.com';
 
 const postRequestInit = {
     method: 'POST',
@@ -51,7 +52,7 @@ export async function signIn(username: string, password: string) {
         `${BASE_URL}/login?username=${username}&password=${password}`,postRequestInit);
         //{mode: 'no-cors', ...postRequestInit});
 
-    //console.log(await response.text());
+    console.log(await response);
     if (!response.ok) {
         throw new Error('Wrong username or password')
     }
