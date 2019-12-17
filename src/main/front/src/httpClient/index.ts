@@ -4,14 +4,16 @@ import {CardAddOrEditModel} from "../models/CardAddOrEditModel";
 import {TagViewModel} from "../models/tagViewModel";
 import {UserModel} from "../models/userModel";
 
-const BASE_URL = 'https://on-meeting.herokuapp.com';
+const BASE_URL = 'http://localhost:8080';
 
 const postRequestInit = {
     method: 'POST',
-        credentials: 'same-origin',
+    credentials: 'same-origin',
     headers: {
-    'Content-Type': 'application/json'
-    }
+        'Content-Type': 'application/json',
+           // 'Access-Control-Allow-Origin':'*'
+    },
+    //mode: 'no-cors'
 } as RequestInit;
 
 const patchRequestInit = {
@@ -37,18 +39,23 @@ export async function signUp(username: string, password: string) {
         `${BASE_URL}/register?username=${username}&password=${password}`,
         postRequestInit
     );
-    if (!response.ok) {
+    console.log(response);
+
+    if (response.status !== 200) {
         throw new Error(await response.text())
     }
 }
 
 export async function signIn(username: string, password: string) {
     let response = await fetch(
-        `${BASE_URL}/login?username=${username}&password=${password}`,
-        {mode: 'no-cors', ...postRequestInit});
+        `${BASE_URL}/login?username=${username}&password=${password}`,postRequestInit);
+        //{mode: 'no-cors', ...postRequestInit});
+
+    //console.log(await response.text());
     if (!response.ok) {
-        throw new Error(await response.text())
+        throw new Error('Wrong username or password')
     }
+    console.log((await getPrincipal()).username)
 }
 
 export async function getPrincipal(): Promise<PrincipalData> {

@@ -6,7 +6,7 @@ import {signUp, signIn} from "../../httpClient"
 import { useHistory } from 'react-router-dom'
 
 const Auth: React.FC = () => {
-    const history = useHistory();
+    let history = useHistory();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
@@ -21,6 +21,7 @@ const Auth: React.FC = () => {
     const onSignUp = async () => {
         try {
             await signUp(username, password);
+            history.push('/login')
         } catch (e) {
             setError(e.message)
         }
@@ -28,7 +29,7 @@ const Auth: React.FC = () => {
     const onSignIn = async () => {
         try {
             await signIn(username, password);
-            history.replace("/board");
+            history.push('/board');
         } catch (e) {
             setError(e.message)
         }
