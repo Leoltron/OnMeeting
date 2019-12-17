@@ -28,6 +28,7 @@ const Auth: React.FC = () => {
     const onSignIn = async () => {
         try {
             await signIn(username, password);
+            history.replace("/board");
         } catch (e) {
             setError(e.message)
         }
