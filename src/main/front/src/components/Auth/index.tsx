@@ -21,7 +21,8 @@ const Auth: React.FC = () => {
     const onSignUp = async () => {
         try {
             await signUp(username, password);
-            history.push('/login')
+            await signIn(username, password);
+            history.push('/board');
         } catch (e) {
             setError(e.message)
         }
