@@ -4,8 +4,8 @@ import {CardAddOrEditModel} from "../models/CardAddOrEditModel";
 import {TagViewModel} from "../models/tagViewModel";
 import {UserModel} from "../models/userModel";
 
-const BASE_URL = '';
-//const BASE_URL = 'https://on-meeting.herokuapp.com';
+// const BASE_URL = '';
+const BASE_URL = 'https://on-meeting.herokuapp.com';
 
 const postRequestInit = {
     method: 'POST',
