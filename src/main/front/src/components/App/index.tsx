@@ -9,7 +9,7 @@ const App: React.FC = () => (
   <div className="App-root">
     <Header/>
     <section className="App-main">
-        <Container maxWidth="sm">
+        <Container maxWidth="xl">
             <Layout/>
         </Container>
     </section>
