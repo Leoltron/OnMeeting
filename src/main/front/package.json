@@ -1,6 +1,6 @@
 {
   "name": "on-meeting",
-  "proxy": "https://on-meeting.herokuapp.com",
+  "proxy": "http://on-meeting.herokuapp.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
