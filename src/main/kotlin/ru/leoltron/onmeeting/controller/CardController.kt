@@ -56,10 +56,13 @@ class CardController(
     fun getOwned(principal: Principal,
                  @RequestBody cardAddOrEditModel: CardAddOrEditModel,
                  @PathVariable cardId: Int): ResponseEntity<Any> {
-        val userId = userRepository.findByUsername(principal.name).firstOrNull()?.userId ?: return unauthorized()
+        val user = userRepository.findByUsername(principal.name).firstOrNull() ?: return unauthorized()
+        val userId = user.userId
+
         val card = cardRepository.findByIdOrNull(cardId) ?: return badRequest("card not found")
         if (card.userId != userId) return forbidden("you don't have an access to edit card with id $cardId")
         val participants = userRepository.findAllById(cardAddOrEditModel.participantsIds)
+        card.user = user
         val tags = tagRepository.findAllById(cardAddOrEditModel.tagIds)
         card.updateFromModel(cardAddOrEditModel, participants, tags)
         val saved = cardRepository.save(card)
