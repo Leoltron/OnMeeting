@@ -59,7 +59,7 @@ class SecurityConfig(
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/user/get").anonymous()
+                .antMatchers("/api/user/get").permitAll()
                 .antMatchers("/api/admin/**").hasRole("ADMIN")
                 .antMatchers("/api/**").authenticated()
                 .and()
