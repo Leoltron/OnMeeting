@@ -12,6 +12,6 @@ class StringLengthValidator : ConstraintValidator<StringLength, String> {
         maxLength = constraintAnnotation.max
     }
 
-    override fun isValid(s: String, constraintValidatorContext: ConstraintValidatorContext): Boolean =
-            s.length in minLength..maxLength
+    override fun isValid(s: String?, constraintValidatorContext: ConstraintValidatorContext): Boolean =
+            s==null || s.length in minLength..maxLength
 }
