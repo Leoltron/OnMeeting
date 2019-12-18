@@ -20,6 +20,5 @@ class User(
     @ManyToMany(mappedBy = "participants")
     var participatingCards: Set<Card> = HashSet()
 
-    @Suppress("unused")
-    private constructor() : this("", "")
+    constructor() : this("", "")
 }

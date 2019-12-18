@@ -16,6 +16,5 @@ class UserAuthority(
     @JoinColumn(name = "user_id", nullable = false, updatable = false, insertable = false)
     var user: User? = null
 
-    @Suppress("unused")
-    private constructor() : this("", 0)
+    constructor() : this("", 0)
 }

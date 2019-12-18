@@ -16,6 +16,5 @@ class Tag(
     @ManyToMany(mappedBy = "tags")
     var cards: Set<Card> = HashSet()
 
-    @Suppress("unused")
-    private constructor() : this("", "", "000000")
+    constructor() : this("", "", "000000")
 }
