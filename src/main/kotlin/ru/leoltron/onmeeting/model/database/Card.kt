@@ -7,7 +7,7 @@ import javax.persistence.*
 
 @Entity(name = "card")
 class Card(
-        @StringLength(min = 5, max = 50) var title: String,
+        @StringLength(min = 1, max = 50) var title: String,
         @Column(name = "user_id") var userId: Int,
         @StringLength(max = 50) var locationString: String? = null,
         @Column(name = "start_date") var startDate: Timestamp? = null,
