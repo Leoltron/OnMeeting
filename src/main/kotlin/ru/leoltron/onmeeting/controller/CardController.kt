@@ -62,7 +62,6 @@ class CardController(
         val card = cardRepository.findByIdOrNull(cardId) ?: return badRequest("card not found")
         if (card.userId != userId) return forbidden("you don't have an access to edit card with id $cardId")
         val participants = userRepository.findAllById(cardAddOrEditModel.participantsIds)
-        card.user = user
         val tags = tagRepository.findAllById(cardAddOrEditModel.tagIds)
         card.updateFromModel(cardAddOrEditModel, participants, tags)
         val saved = cardRepository.save(card)
