@@ -95,8 +95,7 @@ export async function editCard(card: CardAddOrEditModel, id: number): Promise<Ca
 }
 
 export async function deleteCard(id: number) {
-    let response = await fetch(`${BASE_URL}/api/card/${id}/delete`, deleteRequestInit
-    );
+    let response = await fetch(`${BASE_URL}/api/card/${id}/delete`, deleteRequestInit);
     if (!response.ok) {
         throw new Error(await response.text());
     }

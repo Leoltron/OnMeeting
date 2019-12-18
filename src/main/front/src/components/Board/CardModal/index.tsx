@@ -1,36 +1,51 @@
-import React, {Dispatch, SetStateAction, useState} from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {CardViewModel} from "../../../models/CardViewModel";
-import {addCard} from "../../../httpClient";
+import {addCard, editCard} from "../../../httpClient";
 import {CardAddOrEditModel} from "../../../models/CardAddOrEditModel";
 import report from "../../../utils/report";
 
 interface Props {
     card?: CardViewModel
     isOpen: boolean
-    setOpen: Dispatch<SetStateAction<boolean>>
+    close: () => void
 }
-const CardModal: React.FC<Props> = ({isOpen, setOpen, card}) => {
-    const [title, setTitle] = useState(card ? card.title : "");
-    // const [participantsIds, setParticipantsIds] = useState(card ? card.participants.map(p => p.id) : []);
-    // const [tagIds, setTagIds] = useState(card ? card.tags.map(t => t.id) : []);
-    const onClose = () => setOpen(false);
+const CardModal: React.FC<Props> = ({isOpen, close, card}) => {
+    const [title, setTitle] = useState(card ? card.title : undefined);
+    const [location, setLocation] = useState(card ? card.locationString : undefined);
+    const [participantsIds, setParticipantsIds] = useState(card ? card.participants.map(p => p.id) : []);
+    const [tagIds, setTagIds] = useState(card ? card.tags.map(t => t.id) : []);
+    const getSnapshot = () => {
+        return {
+            title,
+            locationString: location,
+            participantsIds,
+            tagIds
+        } as CardAddOrEditModel;
+    };
+    const onClose = () => {
+        setTitle(undefined);
+        setLocation(undefined);
+        setParticipantsIds([]);
+        setTagIds([]);
+        close();
+    };
     const onEdit = async () => {
-        onClose()
+        try {
+            if (card) await editCard(getSnapshot(), card.cardId);
+            onClose()
+        } catch (e) {
+            report(e)
+        }
     };
     const onAdd = async () => {
         try {
-            await addCard({
-                title,
-                participantsIds: [],
-                tagIds: [],
-            } as CardAddOrEditModel);
+            await addCard(getSnapshot());
             onClose()
         } catch (e) {
             report(e)
@@ -43,10 +58,6 @@ const CardModal: React.FC<Props> = ({isOpen, setOpen, card}) => {
                 {card ? "Edit card" : "Add card"}
             </DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    To subscribe to this website, please enter your email address here. We will send updates
-                    occasionally.
-                </DialogContentText>
                 <TextField
                     autoFocus
                     margin="dense"
@@ -56,6 +67,15 @@ const CardModal: React.FC<Props> = ({isOpen, setOpen, card}) => {
                     fullWidth
                     value={title}
                     onChange={e => setTitle(e.target.value)}
+                />
+                <TextField
+                    margin="dense"
+                    id="location"
+                    label="Location"
+                    type="text"
+                    fullWidth
+                    value={location}
+                    onChange={e => setLocation(e.target.value)}
                 />
                 <TextField
                     id="startDate"
