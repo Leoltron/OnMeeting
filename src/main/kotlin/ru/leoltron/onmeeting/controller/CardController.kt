@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*
 import ru.leoltron.onmeeting.ICardProvider
 import ru.leoltron.onmeeting.model.CardAddOrEditModel
 import ru.leoltron.onmeeting.model.CardViewModel
+import ru.leoltron.onmeeting.model.database.Card
 import ru.leoltron.onmeeting.repo.CardRepository
 import ru.leoltron.onmeeting.repo.TagRepository
 import ru.leoltron.onmeeting.repo.UserRepository
@@ -26,9 +27,8 @@ class CardController(
 
     @GetMapping("/getParticipating")
     fun get(principal: Principal): ResponseEntity<List<CardViewModel>> {
-        val userId = userRepository.findByUsername(principal.name).firstOrNull()?.userId ?: return unauthorized()
-
-        return ok(cardProvider.getByParticipant(userId))
+        val user = userRepository.findByUsername(principal.name).firstOrNull() ?: return unauthorized()
+        return ok(user.participatingCards.toList().map { it.toModel() })
     }
 
 
@@ -64,6 +64,7 @@ class CardController(
         val participants = userRepository.findAllById(cardAddOrEditModel.participantsIds)
         val tags = tagRepository.findAllById(cardAddOrEditModel.tagIds)
         card.updateFromModel(cardAddOrEditModel, participants, tags)
+        card.participants.add(user)
         val saved = cardRepository.save(card)
         return ok(saved.toModel())
     }
