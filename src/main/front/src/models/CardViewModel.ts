@@ -5,9 +5,9 @@ export interface CardViewModel {
     title: string,
     username: string,
     cardId: number,
-    locationString: string,
-    startDate: string,
-    endDate: string,
+    locationString?: string,
+    startDate?: string,
+    endDate?: string,
     participants: UserModel[],
     tags: TagViewModel[]
 }
