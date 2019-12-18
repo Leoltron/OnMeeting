@@ -44,6 +44,7 @@ class CardController(
         val user = userRepository.findByUsername(principal.name).firstOrNull() ?: return unauthorized()
         val userId = user.userId
         val card = cardAddOrEditModel.toCard(userId)
+        card.user = user
         card.participants.add(user)
         card.participants.addAll(userRepository.findAllById(cardAddOrEditModel.participantsIds))
         card.tags.addAll(tagRepository.findAllById(cardAddOrEditModel.tagIds))
