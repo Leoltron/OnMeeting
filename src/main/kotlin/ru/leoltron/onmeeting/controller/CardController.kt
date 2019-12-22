@@ -28,9 +28,10 @@ class CardController(
     @GetMapping("/getParticipating")
     fun get(principal: Principal): ResponseEntity<List<CardViewModel>> {
         val user = userRepository.findByUsername(principal.name).firstOrNull() ?: return unauthorized()
-        return ok(user.participatingCards.toList().sortedWith(compareBy { it.cardId }).map { it.toModel() })
+        var cards = user.participatingCards.toList().sortedWith(compareBy { it.cardId }).map { it.toModel() }.toList()
+        cards = cards.plus(user.cards.toList().sortedWith(compareBy { it.cardId }).map { it.toModel() })
+        return ok(cards)
     }
-
 
 
     @GetMapping("/getParticipatingByTag")
@@ -45,7 +46,6 @@ class CardController(
         val userId = user.userId
         val card = cardAddOrEditModel.toCard(userId)
         card.user = user
-        card.participants.add(user)
         card.participants.addAll(userRepository.findAllById(cardAddOrEditModel.participantsIds))
         card.tags.addAll(tagRepository.findAllById(cardAddOrEditModel.tagIds))
         val saved = cardRepository.save(card)
@@ -64,7 +64,6 @@ class CardController(
         val participants = userRepository.findAllById(cardAddOrEditModel.participantsIds)
         val tags = tagRepository.findAllById(cardAddOrEditModel.tagIds)
         card.updateFromModel(cardAddOrEditModel, participants, tags)
-        card.participants.add(user)
         val saved = cardRepository.save(card)
         return ok(saved.toModel())
     }
