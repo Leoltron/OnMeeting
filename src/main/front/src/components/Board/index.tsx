@@ -70,7 +70,7 @@ const Board: React.FC = () => {
                     }
                 </div>
             </div>
-            <CardModal isOpen={openModal} close={onModalCLose} card={openedCard}/>
+            {openModal ? <CardModal isOpen={openModal} close={onModalCLose} card={openedCard}/> : null}
         </>
     );
 };
