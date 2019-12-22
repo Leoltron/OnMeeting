@@ -28,7 +28,7 @@ class CardController(
     @GetMapping("/getParticipating")
     fun get(principal: Principal): ResponseEntity<List<CardViewModel>> {
         val user = userRepository.findByUsername(principal.name).firstOrNull() ?: return unauthorized()
-        return ok(user.participatingCards.toList().map { it.toModel() })
+        return ok(user.participatingCards.toList().sortedWith(compareBy { it.cardId }).map { it.toModel() })
     }
 
 
