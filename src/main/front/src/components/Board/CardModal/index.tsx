@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -9,10 +9,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {CardViewModel} from "../../../models/CardViewModel";
-import {addCard, editCard} from "../../../httpClient";
+import {addCard, editCard, getAllUsers} from "../../../httpClient";
 import {CardAddOrEditModel} from "../../../models/CardAddOrEditModel";
 import report from "../../../utils/report";
 import {Moment} from "moment";
+import Select from '@material-ui/core/Select';
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import MenuItem from '@material-ui/core/MenuItem';
+import Chip from '@material-ui/core/Chip';
+import {UserModel} from "../../../models/userModel";
 
 interface Props {
     card?: CardViewModel
@@ -24,16 +30,28 @@ const CardModal: React.FC<Props> = ({isOpen, close, card}) => {
     const [location, setLocation] = useState(card ? card.locationString : undefined);
     const [startDate, setStartDate] = useState<string | null>(card && card.startDate ? card.startDate : null);
     const [endDate, setEndDate] = useState<string | null>(card && card.endDate ? card.endDate : null);
-    const [participantsIds, setParticipantsIds] = useState(card ? card.participants.map(p => p.id) : []);
-    const [tagIds, setTagIds] = useState(card ? card.tags.map(t => t.id) : []);
+    const [participants, setParticipants] = useState({
+        all: [] as UserModel[],
+        selected: card ? card.participants : [] as UserModel[]
+    });
+    // const [tagIds, setTagIds] = useState(card ? card.tags.map(t => t.id) : []);
+
+    useEffect(() => {
+        getAllUsers()
+            .then(users => {
+                setParticipants({...participants, all: users})
+            })
+            .catch(report)
+    //eslint-disable-next-line
+    }, []);
     const getSnapshot = () => {
         return {
             title,
             locationString: location,
             startDate,
             endDate,
-            participantsIds,
-            tagIds
+            participantsIds: participants.selected.map(p => p.id),
+            tagIds: []
         } as CardAddOrEditModel;
     };
     const onStartDateChange = (date: Moment | null) => {
@@ -45,6 +63,14 @@ const CardModal: React.FC<Props> = ({isOpen, close, card}) => {
         if (date) {
             setEndDate(date.format())
         }
+    };
+    const onSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
+        // @ts-ignore
+        setParticipants({
+            ...participants,
+            selected: (event.target.value as string[])
+                .map(name => participants.all.find(el => el.name === name))
+        })
     };
     const onEdit = async () => {
         try {
@@ -104,6 +130,27 @@ const CardModal: React.FC<Props> = ({isOpen, close, card}) => {
                         onChange={onEndDateChange}
                     />
                 </MuiPickersUtilsProvider>
+                <FormControl fullWidth >
+                    <InputLabel>Participants</InputLabel>
+                    <Select
+                        multiple
+                        value={participants.selected.map(p => p.name)}
+                        onChange={onSelect}
+                        renderValue={selected => (
+                            <>
+                                {(selected as string[]).map(value => (
+                                    <span style={{ padding: '2px'}}>
+                                        <Chip key={value} label={value} />
+                                    </span>
+                                ))}
+                            </>
+                        )}
+                    >
+                        {participants.all.map(p => (
+                            <MenuItem key={p.id} value={p.name}>{p.name}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </DialogContent>
             <DialogActions>
                 <Button onClick={close} color="primary">

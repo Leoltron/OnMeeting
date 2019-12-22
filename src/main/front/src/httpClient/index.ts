@@ -101,15 +101,12 @@ export async function deleteCard(id: number) {
     }
 }
 
-export class UsersHttpClient {
-    static async getAllUsers(): Promise<UserModel[]> {
-        let response = await fetch(`${BASE_URL}/api/user/getAll`, getRequestInit
-        );
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
-        return await response.json() as UserModel[]
+export async function getAllUsers(): Promise<UserModel[]> {
+    let response = await fetch(`${BASE_URL}/api/user/getAll`, getRequestInit);
+    if (!response.ok) {
+        throw new Error(await response.text());
     }
+    return await response.json() as UserModel[]
 }
 
 
