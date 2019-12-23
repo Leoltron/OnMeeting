@@ -64,7 +64,6 @@ class CardController(
         val participants = userRepository.findAllById(cardAddOrEditModel.participantsIds)
         val tags = tagRepository.findAllById(cardAddOrEditModel.tagIds)
         card.updateFromModel(cardAddOrEditModel, participants, tags)
-        card.participants.add(user)
         val saved = cardRepository.save(card)
         return ok(saved.toModel())
     }
