@@ -4,8 +4,8 @@ import {CardAddOrEditModel} from "../models/CardAddOrEditModel";
 import {TagViewModel} from "../models/tagViewModel";
 import {UserModel} from "../models/userModel";
 
-// const BASE_URL = '';
-const BASE_URL = 'https://on-meeting.herokuapp.com';
+const BASE_URL = '';
+// const BASE_URL = 'https://on-meeting.herokuapp.com';
 
 const postRequestInit = {
     method: 'POST',
@@ -95,22 +95,18 @@ export async function editCard(card: CardAddOrEditModel, id: number): Promise<Ca
 }
 
 export async function deleteCard(id: number) {
-    let response = await fetch(`${BASE_URL}/api/card/${id}/delete`, deleteRequestInit
-    );
+    let response = await fetch(`${BASE_URL}/api/card/${id}/delete`, deleteRequestInit);
     if (!response.ok) {
         throw new Error(await response.text());
     }
 }
 
-export class UsersHttpClient {
-    static async getAllUsers(): Promise<UserModel[]> {
-        let response = await fetch(`${BASE_URL}/api/user/getAll`, getRequestInit
-        );
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
-        return await response.json() as UserModel[]
+export async function getAllUsers(): Promise<UserModel[]> {
+    let response = await fetch(`${BASE_URL}/api/user/getAll`, getRequestInit);
+    if (!response.ok) {
+        throw new Error(await response.text());
     }
+    return await response.json() as UserModel[]
 }
 
 

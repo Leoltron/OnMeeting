@@ -4,8 +4,10 @@ import Button from '@material-ui/core/Button';
 import TextField from "@material-ui/core/TextField";
 import {signUp, signIn} from "../../httpClient"
 import { useHistory } from 'react-router-dom'
+import useDocumentTitle from "../../utils/useDocumentTitle";
 
 const Auth: React.FC = () => {
+    useDocumentTitle("Login — OnMeeting");
     let history = useHistory();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -21,7 +23,8 @@ const Auth: React.FC = () => {
     const onSignUp = async () => {
         try {
             await signUp(username, password);
-            history.push('/login')
+            await signIn(username, password);
+            history.push('/board');
         } catch (e) {
             setError(e.message)
         }
