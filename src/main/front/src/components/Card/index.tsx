@@ -15,23 +15,26 @@ import moment from "moment";
 interface Props extends CardViewModel {
     onDelete: (cardId: number) => void
     onEdit: (card: CardViewModel) => void
+    boardOwner: string
 }
 
-const MyCard: React.FC<Props> = ({onDelete, onEdit, ...card}) => (
+const MyCard: React.FC<Props> = ({onDelete, onEdit, boardOwner, ...card}) => (
     <Card>
         <CardHeader
             action={
-                <>
-                    <IconButton aria-label="settings" onClick={() => onEdit(card)}>
-                        <EditIcon fontSize="small"/>
-                    </IconButton>
-                    <IconButton aria-label="settings" onClick={() => onDelete(card.cardId)}>
-                        <DeleteIcon fontSize="small"/>
-                    </IconButton>
-                </>
+                boardOwner === card.username ? (
+                    <>
+                        <IconButton aria-label="settings" onClick={() => onEdit(card)}>
+                            <EditIcon fontSize="small"/>
+                        </IconButton>
+                        <IconButton aria-label="settings" onClick={() => onDelete(card.cardId)}>
+                            <DeleteIcon fontSize="small"/>
+                        </IconButton>
+                    </>
+                ) : null
             }
             title={card.title}
-            subheader={card.username}
+            subheader={`by ${card.username}`}
         />
         <CardContent>
             {card.startDate || card.endDate ? (

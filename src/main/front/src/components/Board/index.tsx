@@ -66,7 +66,7 @@ const Board: React.FC = () => {
                 <div className="Board-wrapper">
                     {cards.length === 0
                         ? <EmptyBoard onAddCardModalOpen={onAddCardModalOpen} />
-                        : <NotEmptyBoard cards={cards} onDelete={onDeleteCard} onEdit={onEditCardModalOpen}/>
+                        : <NotEmptyBoard boardOwner={username} cards={cards} onDelete={onDeleteCard} onEdit={onEditCardModalOpen}/>
                     }
                 </div>
             </div>
@@ -93,14 +93,15 @@ const EmptyBoard: React.FC<{onAddCardModalOpen: () => void}> = ({onAddCardModalO
 );
 
 interface BoardProps {
+    boardOwner: string
     cards: CardViewModel[]
     onDelete: (cardId: number) => void
     onEdit: (card: CardViewModel) => void
 }
-const NotEmptyBoard: React.FC<BoardProps> = ({cards, onDelete, onEdit}) => {
+const NotEmptyBoard: React.FC<BoardProps> = ({boardOwner, cards, onDelete, onEdit}) => {
     return (
         <div className="Board-grid">
-            { cards.map(c => <Card key={c.cardId} onDelete={onDelete} onEdit={onEdit} {...c} />) }
+            { cards.map(c => <Card key={c.cardId} onDelete={onDelete} onEdit={onEdit} boardOwner={boardOwner} {...c} />) }
         </div>
     )
 };
