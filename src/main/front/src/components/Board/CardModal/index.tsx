@@ -9,7 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {CardViewModel} from "../../../models/CardViewModel";
-import {addCard, editCard, getAllUsers} from "../../../httpClient";
+import {addCard, editCard} from "../../../httpClient";
 import {CardAddOrEditModel} from "../../../models/CardAddOrEditModel";
 import report from "../../../utils/report";
 import {Moment} from "moment";
@@ -21,29 +21,27 @@ import Chip from '@material-ui/core/Chip';
 import {UserModel} from "../../../models/userModel";
 
 interface Props {
+    allUsers: UserModel[],
     card?: CardViewModel
     isOpen: boolean
     close: () => void
 }
-const CardModal: React.FC<Props> = ({isOpen, close, card}) => {
+const CardModal: React.FC<Props> = ({isOpen, close, card, allUsers}) => {
     const [title, setTitle] = useState(card ? card.title : undefined);
     const [location, setLocation] = useState(card ? card.locationString : undefined);
     const [startDate, setStartDate] = useState<string | null>(card && card.startDate ? card.startDate : null);
     const [endDate, setEndDate] = useState<string | null>(card && card.endDate ? card.endDate : null);
     const [participants, setParticipants] = useState({
-        all: [] as UserModel[],
+        all: allUsers,
         selected: card ? card.participants : [] as UserModel[]
     });
     // const [tagIds, setTagIds] = useState(card ? card.tags.map(t => t.id) : []);
 
     useEffect(() => {
-        getAllUsers()
-            .then(users => {
-                setParticipants({...participants, all: users})
-            })
-            .catch(report)
+        setParticipants({...participants, all: allUsers});
     //eslint-disable-next-line
-    }, []);
+    }, [allUsers]);
+
     const getSnapshot = () => {
         return {
             title,
@@ -139,8 +137,8 @@ const CardModal: React.FC<Props> = ({isOpen, close, card}) => {
                         renderValue={selected => (
                             <>
                                 {(selected as string[]).map(value => (
-                                    <span style={{ padding: '2px'}}>
-                                        <Chip key={value} label={value} />
+                                    <span key={value} style={{ padding: '2px'}}>
+                                        <Chip label={value} />
                                     </span>
                                 ))}
                             </>

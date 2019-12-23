@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./Board.less"
 import {useHistory} from "react-router-dom";
-import {deleteCard, getParticipatingCards, getPrincipal} from "../../httpClient";
+import {deleteCard, getAllUsers, getParticipatingCards, getPrincipal} from "../../httpClient";
 import report from "../../utils/report";
 import Logout from "../LogoutButton";
 import Button from "@material-ui/core/Button";
@@ -10,6 +10,7 @@ import {CardViewModel} from "../../models/CardViewModel";
 import useDocumentTitle from "../../utils/useDocumentTitle";
 import CardModal from "./CardModal";
 import Card from "../Card";
+import {UserModel} from "../../models/userModel";
 
 const Board: React.FC = () => {
     useDocumentTitle("Board — OnMeeting");
@@ -18,6 +19,7 @@ const Board: React.FC = () => {
     const [cards, setCards] = useState([] as CardViewModel[]);
     const [openModal, setOpenModal] = useState(false);
     const [openedCard, setOpenedCard] = useState<CardViewModel>();
+    const [allUsers, setAllUsers] = useState([] as [] as UserModel[]);
     const checkUserAuthorized = () => {
         getPrincipal()
             .then(p => {
@@ -53,6 +55,9 @@ const Board: React.FC = () => {
     useEffect(() => {
         loadCards();
         const intervalID = window.setInterval(loadCards, 5000);
+        getAllUsers()
+            .then(setAllUsers)
+            .catch(report);
         return () => {
             window.clearInterval(intervalID);
         }
@@ -70,7 +75,7 @@ const Board: React.FC = () => {
                     }
                 </div>
             </div>
-            {openModal ? <CardModal isOpen={openModal} close={onModalCLose} card={openedCard}/> : null}
+            {openModal ? <CardModal allUsers={allUsers.filter(u => u.name !== username)} isOpen={openModal} close={onModalCLose} card={openedCard}/> : null}
         </>
     );
 };
