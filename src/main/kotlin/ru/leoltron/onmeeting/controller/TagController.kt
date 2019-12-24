@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import ru.leoltron.onmeeting.model.TagModel
+import ru.leoltron.onmeeting.model.TagViewModel
 import ru.leoltron.onmeeting.model.database.Tag
 import ru.leoltron.onmeeting.repo.TagRepository
 import ru.leoltron.onmeeting.util.toModel
@@ -22,7 +23,7 @@ class TagController : BaseController() {
 
     @ResponseBody
     @GetMapping("/getAll")
-    fun getAll(): Iterable<TagModel> = repository.findAll().map(Tag::toModel)
+    fun getAll(): Iterable<TagViewModel> = repository.findAll().map(Tag::toViewModel)
 
     @ResponseBody
     @GetMapping("/get")
