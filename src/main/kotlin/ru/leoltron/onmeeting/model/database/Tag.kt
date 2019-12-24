@@ -8,7 +8,7 @@ import javax.persistence.*
 @Entity(name = "tag")
 class Tag(
         @StringLength(min = 1, max = 50) var name: String,
-        @StringLength(max = 255) var description: String,
+        @StringLength(max = 255) var description: String?,
         @Color var color: String,
         @Column(name = "tag_id") @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val tagId: Int = -1) {

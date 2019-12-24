@@ -5,4 +5,4 @@ import ru.leoltron.onmeeting.validation.StringLength
 
 data class TagModel(@StringLength(min = 1, max = 50) val name: String,
                     @Color val color: String,
-                    @StringLength(max = 255) val description: String = "")
+                    @StringLength(max = 255) val description: String? = "")
