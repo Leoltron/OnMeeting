@@ -1,13 +1,11 @@
 package ru.leoltron.onmeeting.controller
 
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ru.leoltron.onmeeting.ICardProvider
 import ru.leoltron.onmeeting.model.CardAddOrEditModel
 import ru.leoltron.onmeeting.model.CardViewModel
-import ru.leoltron.onmeeting.model.database.Card
 import ru.leoltron.onmeeting.repo.CardRepository
 import ru.leoltron.onmeeting.repo.TagRepository
 import ru.leoltron.onmeeting.repo.UserRepository
@@ -28,9 +26,7 @@ class CardController(
     @GetMapping("/getParticipating")
     fun get(principal: Principal): ResponseEntity<List<CardViewModel>> {
         val user = userRepository.findByUsername(principal.name).firstOrNull() ?: return unauthorized()
-        var cards = user.participatingCards.toList().sortedWith(compareBy { it.cardId }).map { it.toModel() }.toList()
-        cards = cards.plus(user.cards.toList().sortedWith(compareBy { it.cardId }).map { it.toModel() })
-        return ok(cards)
+        return ok(user.participatingCards.toList().sortedWith(compareBy { it.cardId }).map { it.toModel() }.toList())
     }
 
 
